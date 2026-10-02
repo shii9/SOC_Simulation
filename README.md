@@ -21,7 +21,7 @@ Each project within this repository models a complete real-world cyber attack li
 
 | # | Simulation Project | Target Platform | Primary Focus & Attack Vectors | SIEM / Telemetry Stack | Status | Documentation Link |
 |:---:|:---|:---:|:---|:---|:---:|:---:|
-| **01** | **Endpoint Compromise & Credential Access** | Windows 10 / Kali Linux | Phishing lure, Meterpreter HTTP C2, Discovery, Local Admin Account, Scheduled Task SYSTEM Persistence, certutil tool staging, Mimikatz `privilege::debug` | Sysmon v14+, Windows Security Events 4688/4698/4720/4732, Splunk Enterprise | `COMPLETED` | [📁 View Project](./SOC_Investigation_Simulation/) |
+| **01** | **Endpoint Compromise & Credential Access** | Windows 10 / Kali Linux | Phishing lure, Meterpreter HTTP C2, Discovery, Local Admin Account, Scheduled Task SYSTEM Persistence, certutil tool staging, Mimikatz `privilege::debug` | Sysmon v14+, Windows Security Events 4688/4698/4720/4732, Splunk Enterprise | `COMPLETED` | [📁 View Project](./SOC_Investigation_Simulation_1/) |
 
 ---
 
@@ -34,7 +34,7 @@ SOC_Simulation/
 ├── README.md                                 <-- Global Hub & Master Catalog
 ├── .gitignore                                <-- Artifact & log exclusions
 │
-└── SOC_Investigation_Simulation/             <-- Simulation 01: Endpoint Compromise & Credential Access
+└── SOC_Investigation_Simulation_1/             <-- Simulation 01: Endpoint Compromise & Credential Access
     ├── README.md                             <-- Exhaustive technical documentation & forensic analysis
     ├── docs/
     │   ├── Splunk-SOC-Investigation-(1)-Report.docx  <-- Full technical report document
