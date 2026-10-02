@@ -1,0 +1,14 @@
+Type,Indicator,Port/Protocol,Description,Phase
+IPv4 (Attacker C2),192.168.110.141,33398 / TCP,Kali Linux attacker listener host for reverse_http Meterpreter,C2 (Phase 3)
+IPv4 (Victim Host),192.168.110.156,55196 / TCP,Windows 10 victim host (SH-WIN10) initiating outbound callback,"Execution & C2 (Phase 2, 3)"
+SHA256 Hash,7673C78000C1DF5FDD6C863C494F2D00FC961C947F2B8ABD0E7BCC212765EBF1,N/A,FreeClude.exe initial staged Meterpreter payload,"Initial Access & Execution (Phase 1, 2)"
+File Path,C:\Users\saada\Downloads\FreeClude.exe,N/A,Staged payload file executed from Downloads folder,"Initial Access & Execution (Phase 1, 2)"
+File Path / Stream,C:\Users\saada\Downloads\Unconfirmed 635978.crdownload:Zone.Identifier,N/A,MOTW alternate data stream (ZoneId=3) indicating Telegram Web origin,Initial Access (Phase 1)
+URL,https://web.telegram.org/,443 / HTTPS,Referrer/download source logged in Sysmon Event 15 Zone.Identifier,Initial Access (Phase 1)
+URL,https://github.com/ParrotSec/mimikatz/raw/refs/heads/master/x64/mimikatz.exe,443 / HTTPS,Remote staging URL for Mimikatz secondary payload downloaded via certutil,Tool Transfer (Phase 6)
+File Path,C:\Users\saada\Downloads\GetClaude.exe,N/A,Renamed Mimikatz binary dropped to disk via certutil,"Tool Transfer & Credential Access (Phase 6, 7)"
+User Account,ClaudeBackdoor,N/A,Rogue local administrator account created for persistence,Persistence (Phase 5A)
+Scheduled Task,GetClaudeBackdoor,N/A,Persistence task configured to run FreeClude.exe at logon as SYSTEM,Persistence (Phase 5B)
+Process GUID,{4736c562-214c-6ab5-f802-000000001c00},N/A,Sysmon ProcessGuid for FreeClude.exe (PID 5568),"Execution & C2 (Phase 2, 3)"
+Process GUID,{4736c562-2238-6ab5-2803-000000001c00},N/A,Sysmon ProcessGuid for net.exe account creation (PID 9752),Persistence (Phase 5A)
+Process GUID,{4736c562-22ab-6ab5-3a03-000000001c00},N/A,Sysmon ProcessGuid for certutil.exe download (PID 1072),Tool Transfer (Phase 6)

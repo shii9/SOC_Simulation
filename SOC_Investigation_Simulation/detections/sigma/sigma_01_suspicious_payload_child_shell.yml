@@ -1,0 +1,32 @@
+title: Suspicious Payload Child Command Shell
+id: 5b4d7c18-9e20-4a81-b5e1-88419f860001
+status: test
+description: Detects execution of cmd.exe spawned by a suspicious payload executable (e.g. FreeClude.exe or untrusted user-space binaries) during post-compromise activity.
+references:
+    - https://attack.mitre.org/techniques/T1059/003/
+author: SOC DFIR Team
+date: 2026-09-24
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_image:
+        Image|endswith: '\cmd.exe'
+    selection_parent:
+        ParentImage|endswith:
+            - '\FreeClude.exe'
+            - '\Users\*\Downloads\*.exe'
+    condition: all of selection_*
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - ParentProcessId
+    - ProcessGuid
+    - User
+falsepositives:
+    - Rare administrative scripts running from user directories
+level: high
+tags:
+    - attack.execution
+    - attack.t1059.003

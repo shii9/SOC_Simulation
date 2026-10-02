@@ -1,0 +1,21 @@
+```
+================================================================================
+SPL HUNT 04: Local Rogue Account Creation & Administrative Group Tampering
+Techniques: T1136.001 (Create Local Account), T1098.007 (Local Group Tampering)
+Data Sources: Sysmon EventCode 1 & Windows Security Events 4720, 4732, 4726
+Account: ClaudeBackdoor
+================================================================================
+```
+(index=* host="Sh-Win10" EventCode=1 Image="*\net.exe" (CommandLine="*user*" OR CommandLine="*localgroup*"))
+OR
+(index=* host="Sh-Win10" EventCode IN (4720, 4732, 4726))
+| eval Action=case(
+    EventCode=1 AND like(CommandLine, "%/add%"), "Process: Net Account/Group Add",
+    EventCode=1 AND like(CommandLine, "%/del%"), "Process: Net Account Cleanup",
+    EventCode=4720, "SecLog: User Account Created",
+    EventCode=4732, "SecLog: Added to Administrators Group",
+    EventCode=4726, "SecLog: User Account Deleted",
+    1=1, "Other"
+)
+| table _time EventCode Action User TargetUserName MemberName GroupName CommandLine ProcessGuid
+| sort _time

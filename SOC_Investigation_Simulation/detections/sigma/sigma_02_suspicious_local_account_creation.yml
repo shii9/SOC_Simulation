@@ -1,0 +1,31 @@
+title: Suspicious Local Account Creation via Net
+id: 5b4d7c18-9e20-4a81-b5e1-88419f860002
+status: test
+description: Detects the use of native net.exe to create new local user accounts outside authorized administrative provisioning workflows.
+references:
+    - https://attack.mitre.org/techniques/T1136/001/
+author: SOC DFIR Team
+date: 2026-09-24
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_image:
+        Image|endswith: 
+            - '\net.exe'
+            - '\net1.exe'
+    selection_command:
+        CommandLine|re: '(?i)\buser\s+[^ ]+\s+/add\b'
+    condition: all of selection_*
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - ProcessGuid
+    - User
+falsepositives:
+    - Automated system deployment or endpoint management agents
+level: high
+tags:
+    - attack.persistence
+    - attack.t1136.001

@@ -1,0 +1,13 @@
+```
+================================================================================
+SPL HUNT 06: Ingress Tool Staging via certutil.exe URLCache
+Technique: T1105 (Ingress Tool Transfer)
+Data Sources: Sysmon EventCode 1 (Process Create), EventCode 3 (Network), EventCode 11 (File Create)
+Payload: Mimikatz staged as GetClaude.exe
+================================================================================
+```
+index=* host="Sh-Win10" (EventCode=1 OR EventCode=3 OR EventCode=11)
+| search (Image="*\certutil.exe" OR TargetFilename="*\GetClaude.exe*" OR CommandLine="*urlcache*")
+| eval Detail=coalesce(CommandLine, TargetFilename, DestinationIp.":".DestinationPort)
+| table _time EventCode host User Image Detail ProcessGuid ProcessId IntegrityLevel SHA256
+| sort _time

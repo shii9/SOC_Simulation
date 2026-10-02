@@ -1,0 +1,11 @@
+```
+================================================================================
+SPL HUNT 01: Initial Payload Execution & Suspicious Parent Investigation
+Technique: T1204.002 (User Execution: Malicious File)
+Sysmon EventCode: 1 (Process Create)
+================================================================================
+```
+index=* host="Sh-Win10" EventCode=1 (Image="*\FreeClude.exe" OR ParentImage="*\explorer.exe")
+| eval ProcessPath=Image, Parent=ParentImage
+| table _time host User Image ParentImage CommandLine IntegrityLevel ProcessGuid ProcessId SHA256
+| sort - _time

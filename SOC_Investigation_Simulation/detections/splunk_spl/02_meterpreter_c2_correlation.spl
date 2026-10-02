@@ -1,0 +1,13 @@
+```
+================================================================================
+SPL HUNT 02: Correlate Payload ProcessGuid to Reverse HTTP C2 Outbound Traffic
+Technique: T1071.001 (Web Protocols - C2)
+Sysmon EventCode: 3 (Network Connection)
+Attacker C2: 192.168.110.141:33398 | Victim: 192.168.110.156:55196
+================================================================================
+```
+index=* host="Sh-Win10" (EventCode=1 OR EventCode=3)
+| search (Image="*\FreeClude.exe" OR DestinationIp="192.168.110.141")
+| eval Connection=SourceIp.":".SourcePort." -> ".DestinationIp.":".DestinationPort
+| table _time EventCode host User Image ProcessGuid ProcessId Protocol Connection DestinationIp DestinationPort
+| sort _time

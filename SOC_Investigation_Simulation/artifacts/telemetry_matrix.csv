@@ -1,0 +1,13 @@
+Log_Channel,Event_ID,Event_Name,Key_Fields,Detection_Use
+Microsoft-Windows-Sysmon/Operational,1,Process Creation,"Image, CommandLine, ParentImage, ProcessGuid, User, IntegrityLevel, Hashes","Initial execution, cmd.exe spawn, discovery, net.exe, schtasks.exe, certutil.exe, mimikatz"
+Microsoft-Windows-Sysmon/Operational,3,Network Connection,"Image, ProcessGuid, SourceIp, SourcePort, DestinationIp, DestinationPort, Protocol","Meterpreter reverse HTTP callback, certutil HTTP download"
+Microsoft-Windows-Sysmon/Operational,7,Image Loaded,"Image, ImageLoaded, Signed, SignatureStatus, Hashes","Unsigned payload verification, taskhostw.exe loading taskschd.dll"
+Microsoft-Windows-Sysmon/Operational,10,Process Access,"SourceImage, TargetImage, GrantedAccess, CallTrace",LSASS memory dumping detection (conditional hunt for Mimikatz)
+Microsoft-Windows-Sysmon/Operational,11,File Create,"TargetFilename, Image, ProcessGuid","FreeClude.exe creation, GetClaude.exe (Mimikatz) dropped to disk"
+Microsoft-Windows-Sysmon/Operational,15,File Create Stream Hash,"TargetFilename, Contents (Zone.Identifier), Hash","Mark-of-the-Web (ZoneId=3), origin URL (web.telegram.org)"
+Microsoft-Windows-Sysmon/Operational,22,DNS Query,"QueryName, QueryResults, Image",DNS resolution for remote tools (github.com)
+Security (Windows Event Log),4688,A new process has been created,"NewProcessName, CommandLine, CreatorProcessName, TokenElevationType",Process execution auditing with command-line arguments
+Security (Windows Event Log),4698,A scheduled task was created,"TaskName, TaskContent (XML with Principal & Actions)",Persistence via scheduled task creation (GetClaudeBackdoor)
+Security (Windows Event Log),4720,A user account was created,"TargetUserName, TargetDomainName, SubjectUserName",Rogue user creation (ClaudeBackdoor)
+Security (Windows Event Log),4732,A member was added to a security-enabled local group,"TargetUserName, MemberName, GroupName",Privilege escalation / group tampering (Administrators group)
+Security (Windows Event Log),4726,A user account was deleted,"TargetUserName, SubjectUserName",Defense evasion / cleanup of ClaudeBackdoor

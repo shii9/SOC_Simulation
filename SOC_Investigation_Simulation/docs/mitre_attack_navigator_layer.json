@@ -1,0 +1,159 @@
+{
+    "name": "SOC Simulation 01 - Endpoint Compromise & Credential Access Investigation",
+    "versions": {
+        "attack": "14",
+        "navigator": "4.9.1",
+        "layer": "4.5"
+    },
+    "domain": "enterprise-attack",
+    "description": "MITRE ATT&CK Navigator Layer mapping the complete attack lifecycle of SOC Simulation 01: FreeClude Meterpreter payload delivery, reverse HTTP C2, host discovery, local account and scheduled task persistence, certutil ingress tool transfer, and Mimikatz privilege::debug preparation.",
+    "filters": {
+        "platforms": [
+            "Windows"
+        ]
+    },
+    "sorting": 3,
+    "layout": {
+        "layout": "side",
+        "aggregateFunction": "average",
+        "showID": true,
+        "showName": true,
+        "showAggregateScores": true,
+        "countUnscored": false
+    },
+    "hideDisabled": false,
+    "techniques": [
+        {
+            "techniqueID": "T1566.003",
+            "tactic": "initial-access",
+            "score": 100,
+            "color": "#e06666",
+            "comment": "CONFIRMED: Payload delivered via Telegram Web service (Sysmon Event 15 Zone.Identifier HostUrl=https://web.telegram.org/).",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1204.002",
+            "tactic": "execution",
+            "score": 100,
+            "color": "#e06666",
+            "comment": "CONFIRMED: User executed FreeClude.exe from Downloads directory via explorer.exe (Sysmon Event 1, IntegrityLevel High).",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1059.003",
+            "tactic": "execution",
+            "score": 100,
+            "color": "#e06666",
+            "comment": "CONFIRMED: FreeClude.exe spawned cmd.exe (PID 6316) for post-exploitation command execution.",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1071.001",
+            "tactic": "command-and-control",
+            "score": 100,
+            "color": "#e06666",
+            "comment": "CONFIRMED: Reverse HTTP Meterpreter session established from 192.168.110.156:55196 to 192.168.110.141:33398 (Sysmon Event 3).",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1033",
+            "tactic": "discovery",
+            "score": 100,
+            "color": "#e06666",
+            "comment": "CONFIRMED: Execution of whoami.exe returning SH-WIN10\\saad (Sysmon Event 1).",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1082",
+            "tactic": "discovery",
+            "score": 100,
+            "color": "#e06666",
+            "comment": "CONFIRMED: Execution of hostname.exe and systeminfo.exe to enumerate system properties (Sysmon Event 1).",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1136.001",
+            "tactic": "persistence",
+            "score": 100,
+            "color": "#e06666",
+            "comment": "CONFIRMED: Created local account ClaudeBackdoor using net user ClaudeBackdoor password /add (Sysmon Event 1, Sec 4720).",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1098.007",
+            "tactic": "persistence",
+            "score": 100,
+            "color": "#e06666",
+            "comment": "CONFIRMED: Added ClaudeBackdoor to local Administrators group (Sysmon Event 1, Sec 4732).",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1053.005",
+            "tactic": "persistence",
+            "score": 100,
+            "color": "#e06666",
+            "comment": "CONFIRMED: Created scheduled task GetClaudeBackdoor executing FreeClude.exe at logon as SYSTEM (Sysmon Event 1/7, Sec 4698).",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1070.004",
+            "tactic": "defense-evasion",
+            "score": 90,
+            "color": "#ffd966",
+            "comment": "CONFIRMED: Cleanup of temporary backdoor account via net user ClaudeBackdoor /delete (Sysmon Event 1, Sec 4726).",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1105",
+            "tactic": "command-and-control",
+            "score": 100,
+            "color": "#e06666",
+            "comment": "CONFIRMED: Ingress tool transfer using certutil.exe -urlcache -split -f to download mimikatz.exe as GetClaude.exe (Sysmon Event 1/3/11).",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1003",
+            "tactic": "credential-access",
+            "score": 85,
+            "color": "#f6b26b",
+            "comment": "CONFIRMED: Execution of GetClaude.exe (Mimikatz 2.2.0) and invocation of privilege::debug (Sysmon Event 1).",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1003.001",
+            "tactic": "credential-access",
+            "score": 50,
+            "color": "#9fc5e8",
+            "comment": "CONDITIONAL: Preparation observed (privilege::debug OK), but LSASS memory dumping requires Sysmon Event 10 / sekurlsa::logonpasswords confirmation.",
+            "enabled": true
+        }
+    ],
+    "gradient": {
+        "colors": [
+            "#ffffff",
+            "#9fc5e8",
+            "#ffd966",
+            "#e06666"
+        ],
+        "minValue": 0,
+        "maxValue": 100
+    },
+    "legendItems": [
+        {
+            "label": "Confirmed Attacker Behavior (High Confidence)",
+            "color": "#e06666"
+        },
+        {
+            "label": "Defense Evasion / Cleanup Behavior",
+            "color": "#ffd966"
+        },
+        {
+            "label": "Credential Access Preparation (Tool Executed)",
+            "color": "#f6b26b"
+        },
+        {
+            "label": "Conditional Technique (Requires LSASS Telemetry)",
+            "color": "#9fc5e8"
+        }
+    ]
+}

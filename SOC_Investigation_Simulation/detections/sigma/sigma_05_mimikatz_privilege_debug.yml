@@ -1,0 +1,33 @@
+title: Mimikatz or Debug Privilege Invocation
+id: 5b4d7c18-9e20-4a81-b5e1-88419f860005
+status: test
+description: Detects command-line invocation of Mimikatz or the classic privilege::debug syntax associated with LSASS credential-dumping preparation.
+references:
+    - https://attack.mitre.org/techniques/T1003/
+    - https://attack.mitre.org/techniques/T1003.001/
+author: SOC DFIR Team
+date: 2026-09-24
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        CommandLine|contains:
+            - 'privilege::debug'
+            - 'mimikatz'
+            - 'sekurlsa::logonpasswords'
+            - 'lsadump::sam'
+    condition: selection
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - ProcessGuid
+    - User
+falsepositives:
+    - Penetration testing or purple-team exercises
+level: critical
+tags:
+    - attack.credential_access
+    - attack.t1003
+    - attack.t1003.001

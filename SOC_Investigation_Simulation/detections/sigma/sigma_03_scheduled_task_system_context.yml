@@ -1,0 +1,35 @@
+title: Scheduled Task Creation With Elevated System Context
+id: 5b4d7c18-9e20-4a81-b5e1-88419f860003
+status: test
+description: Detects creation of scheduled tasks configured to execute binaries under the privileged NT AUTHORITY\SYSTEM context using schtasks.exe.
+references:
+    - https://attack.mitre.org/techniques/T1053/005/
+author: SOC DFIR Team
+date: 2026-09-24
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_image:
+        Image|endswith: '\schtasks.exe'
+    selection_create:
+        CommandLine|contains: ' /create '
+    selection_system:
+        CommandLine|contains:
+            - ' /ru system '
+            - ' /ru "system" '
+            - ' /ru "NT AUTHORITY\SYSTEM" '
+    condition: all of selection_*
+fields:
+    - Image
+    - CommandLine
+    - ParentImage
+    - ProcessGuid
+    - User
+falsepositives:
+    - Software installers configuring background updater tasks
+level: high
+tags:
+    - attack.persistence
+    - attack.execution
+    - attack.t1053.005

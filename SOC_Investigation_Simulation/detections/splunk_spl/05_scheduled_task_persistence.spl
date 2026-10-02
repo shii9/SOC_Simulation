@@ -1,0 +1,15 @@
+```
+================================================================================
+SPL HUNT 05: Scheduled Task Persistence with NT AUTHORITY\SYSTEM Privileges
+Technique: T1053.005 (Scheduled Task)
+Data Sources: Sysmon EventCode 1, 7 & Windows Security Event 4698
+Task Name: GetClaudeBackdoor | Target: FreeClude.exe
+================================================================================
+```
+(index=* host="Sh-Win10" EventCode=1 Image="*\schtasks.exe" CommandLine="*/create*")
+OR
+(index=* host="Sh-Win10" EventCode=4698)
+OR
+(index=* host="Sh-Win10" EventCode=7 Image="*\taskhostw.exe" ImageLoaded="*\taskschd.dll")
+| table _time EventCode host User Image TaskName CommandLine ImageLoaded ProcessGuid ProcessId
+| sort _time

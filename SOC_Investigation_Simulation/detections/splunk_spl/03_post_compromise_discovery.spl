@@ -1,0 +1,12 @@
+```
+================================================================================
+SPL HUNT 03: Post-Compromise Host & User Discovery via Spawned Shell
+Techniques: T1033 (User Discovery), T1082 (System Info Discovery), T1059.003
+Sysmon EventCode: 1 (Process Create)
+Parent: FreeClude.exe -> cmd.exe -> whoami.exe, hostname.exe, systeminfo.exe
+================================================================================
+```
+index=* host="Sh-Win10" EventCode=1 (ParentImage="*\FreeClude.exe" OR ParentImage="*\cmd.exe")
+| search Image="*\cmd.exe" OR Image="*\whoami.exe" OR Image="*\hostname.exe" OR Image="*\systeminfo.exe"
+| table _time host User ParentImage Image CommandLine ProcessGuid ProcessId IntegrityLevel
+| sort _time
