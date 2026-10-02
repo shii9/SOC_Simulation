@@ -22,40 +22,33 @@ Each project within this repository models a complete real-world cyber attack li
 | # | Simulation Project | Target Platform | Primary Focus & Attack Vectors | SIEM / Telemetry Stack | Status | Documentation Link |
 |:---:|:---|:---:|:---|:---|:---:|:---:|
 | **01** | **Endpoint Compromise & Credential Access** | Windows 10 / Kali Linux | Phishing lure, Meterpreter HTTP C2, Discovery, Local Admin Account, Scheduled Task SYSTEM Persistence, certutil tool staging, Mimikatz `privilege::debug` | Sysmon v14+, Windows Security Events 4688/4698/4720/4732, Splunk Enterprise | `COMPLETED` | [📁 View Project](./SOC_Investigation_Simulation/) |
-| **02** | **Enterprise Ransomware & Canary Defense** | Windows Server 2022 | Ransomware payload staging, shadow copy deletion (`vssadmin`), volume tampering, Canary file triggers, high-frequency file modifications | Sysmon Event 11, Security 4663, Splunk Enterprise | `PLANNED` | *Upcoming* |
-| **03** | **Active Directory Kerberoasting & Lateral Movement** | Windows AD Domain | SPN enumeration, Kerberoasting (Ticket Granting Service requests), Pass-the-Hash, WMI / WinRM lateral movement | Windows Security Events 4769/4624, Sysmon 1/3, Splunk Enterprise | `PLANNED` | *Upcoming* |
-| **04** | **Web Application Ingress to Interactive Shell** | Ubuntu Linux / Apache | Web vulnerability exploitation (SQLi / Command Injection), web shell drop, reverse TCP bash shell, sudo privilege escalation | Linux Auditd, Apache Access/Error logs, Splunk Enterprise | `PLANNED` | *Upcoming* |
-| **05** | **Cloud Incident Response: IAM Key Compromise** | AWS / Azure | Exposed access key usage, unauthorized S3 bucket enumeration, persistence via IAM role assumption, CloudTrail evasion | AWS CloudTrail, GuardDuty, Splunk AWS App | `PLANNED` | *Upcoming* |
 
 ---
 
 ## 🏗️ Repository Architecture & Standards
 
-To ensure consistency, repeatability, and high academic/industry quality across all current and future simulations, every project follows a standardized directory structure:
+To ensure consistency, repeatability, and high academic/industry quality across simulations, each project follows a standardized directory structure:
 
 ```
 SOC_Simulation/
-├── README.md                                 <-- Global Hub & Master Catalog (You are here)
+├── README.md                                 <-- Global Hub & Master Catalog
 ├── .gitignore                                <-- Artifact & log exclusions
 │
-├── SOC_Investigation_Simulation/             <-- Simulation 01: Endpoint Compromise & Credential Access
-│   ├── README.md                             <-- Exhaustive technical documentation & forensic analysis
-│   ├── docs/
-│   │   ├── Splunk-SOC-Investigation-(1)-Report.docx  <-- Full technical report document
-│   │   └── mitre_attack_navigator_layer.json <-- Interactive ATT&CK Navigator JSON layer
-│   ├── assets/
-│   │   └── images/                           <-- Attack maps, lab architecture diagrams, lineage trees
-│   ├── detections/
-│   │   ├── sigma/                            <-- Production-ready Sigma YAML detection rules
-│   │   └── splunk_spl/                       <-- Optimized Splunk SPL hunting and correlation queries
-│   ├── artifacts/
-│   │   ├── iocs.csv                          <-- Machine-readable IOCs (hashes, IPs, paths, accounts)
-│   │   └── telemetry_matrix.csv              <-- Data sources, Event IDs, and detection mappings
-│   └── simulation_guide/
-│       └── attack_walkthrough.md             <-- Step-by-step commands to reproduce the simulation
-│
-├── [Future_Simulation_02]/                   <-- Standardized folder for upcoming simulation projects
-│   └── ...
+└── SOC_Investigation_Simulation/             <-- Simulation 01: Endpoint Compromise & Credential Access
+    ├── README.md                             <-- Exhaustive technical documentation & forensic analysis
+    ├── docs/
+    │   ├── Splunk-SOC-Investigation-(1)-Report.docx  <-- Full technical report document
+    │   └── mitre_attack_navigator_layer.json <-- Interactive ATT&CK Navigator JSON layer
+    ├── assets/
+    │   └── images/                           <-- Attack maps, lab architecture diagrams, lineage trees
+    ├── detections/
+    │   ├── sigma/                            <-- Production-ready Sigma YAML detection rules
+    │   └── splunk_spl/                       <-- Optimized Splunk SPL hunting and correlation queries
+    ├── artifacts/
+    │   ├── iocs.csv                          <-- Machine-readable IOCs (hashes, IPs, paths, accounts)
+    │   └── telemetry_matrix.csv              <-- Data sources, Event IDs, and detection mappings
+    └── simulation_guide/
+        └── attack_walkthrough.md             <-- Step-by-step commands to reproduce the simulation
 ```
 
 ---
@@ -107,7 +100,7 @@ To reproduce or adapt the simulations in this hub, the following base environmen
 ## ➕ How to Add a New Simulation
 
 When adding a new simulation to this repository:
-1. Create a dedicated directory under the root named after the scenario (e.g., `Ransomware_Detection_Simulation/`).
+1. Create a dedicated directory under the root named after the scenario (e.g., `New_Simulation_Name/`).
 2. Populate the subfolders according to the template: `docs/`, `assets/images/`, `detections/sigma/`, `detections/splunk_spl/`, `artifacts/`, `simulation_guide/`.
 3. Provide a standalone, comprehensive `README.md` inside the project folder detailing the scenario, architecture, evidence, SPL queries, and remediation.
 4. Update the **Simulation Catalog** table in this root `README.md`.
